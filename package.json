@@ -1,0 +1,37 @@
+{
+  "name": "image-search-abstraction-layer",
+  "version": "1.0.0",
+  "description": "FCC api that serve several images links and other information in json format per search",
+  "main": "server.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node server.js",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luiko/image-search-abstraction-layer.git"
+  },
+  "keywords": [
+    "API",
+    "FCC",
+    "Node",
+    "Microservice"
+  ],
+  "author": "Luiko <luiko.luisgarcia@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Luiko/image-search-abstraction-layer/issues"
+  },
+  "homepage": "https://github.com/Luiko/image-search-abstraction-layer#readme",
+  "dependencies": {
+    "concat-stream": "^1.6.0",
+    "express": "^4.14.1",
+    "mongodb": "^2.2.22",
+    "pug": "^2.0.0-beta9"
+  },
+  "devDependencies": {
+    "eslint": "^3.15.0",
+    "tape": "^4.6.3"
+  }
+}
