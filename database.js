@@ -19,6 +19,7 @@ function getLastSearches(res) {
 }
 function connect(fn) {
     const dbconstr = process.env.DBConStr0;
+    // const dbconstr = 'mongodb://localhost:27017/imageSearch'; //database local
     MongoClient.connect(dbconstr, (err, db) => {
         if (err) return console.error(err);
         const collection = db.collection('searches');

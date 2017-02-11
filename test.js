@@ -1,5 +1,6 @@
 const tape = require('tape');
-const { request } = require('https');
+const { request } = require('http');
+// const { request } = require('https'); //only remote server
 const concat = require('concat-stream');
 
 tape('page up', t => {
@@ -17,7 +18,8 @@ tape('response expected normal case', t => {
     testRequest(option, res => {
         res.pipe(concatStream);
         t.equal(res.statusCode, 206, 'connection OK, patial content');
-        t.assert(/application\/json/.test(res.headers['content-type']), 'content type OK');
+        t.assert(/application\/json/.test(res.headers['content-type'])
+            , 'content type OK');
     });
     function takeResult(data) {
         testResult(data, t, q);
@@ -28,11 +30,12 @@ tape('response expected offset case', t => {
     t.plan(9);
     const concatStream = concat(takeResult);
     const q = 'trump';
-    const option = { path: '/search?q=' + q + '&offset=2' };
+    const option = { path: `/search?q=${q}&offset=2` };
     testRequest(option, res => {
         res.pipe(concatStream);
         t.equal(res.statusCode, 206, 'connection OK, patial content');
-        t.assert(/application\/json/.test(res.headers['content-type']), 'content type OK');
+        t.assert(/application\/json/.test(res.headers['content-type'])
+            , 'content type OK');
     })
     function takeResult(data) {
         testResult(data, t, q);
@@ -46,7 +49,8 @@ tape('response expected last searches case', t => {
     testRequest(option, res => {
         res.pipe(concatStream);
         t.equal(res.statusCode, 206, 'connection OK, patial content');
-        t.assert(/application\/json/.test(res.headers['content-type']), 'content type OK');
+        t.assert(/application\/json/.test(res.headers['content-type'])
+            , 'content type OK');
     })
     function testResult(data) {
         try {
@@ -81,18 +85,19 @@ function testResult(data, t, q) {
 }
 
 function testRequest() {
-    const [first, second] = [...arguments]; 
+    const [first, second] = [...arguments];
     if (!second && typeof first === 'function') {
         requestCase(first);
     }
     if (first && typeof second === 'function') {
         requestCase(second, first);
     }
+    // function requestCase(fn , { hostname = 'localhost', port = 8000, path = '/' } = {}) { //server local
     function requestCase(fn, { hostname = 'image-search0.herokuapp.com',
-            path = '/',
-            port = process.env.PORT
-        } = {}) {
-        const req = request({ hostname, path, port }, res => {
+        port = process.env.PORT,
+        path = '/'
+    } = {}) {
+        const req = request({ hostname, port, path }, res => {
             fn(res);
         });
         req.on('error', console.error);

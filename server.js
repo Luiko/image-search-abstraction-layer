@@ -52,6 +52,7 @@ function getImagesSearch(response, { q = 'lolcats', offset = 0 } = {}) {
     req.on('error', console.error);
     req.end();
     recordingSearch(q, new Date);
+
     function handleData(data) {
         let results = JSON.parse(data).value;
         results = results.map(val => {
@@ -65,6 +66,10 @@ function getImagesSearch(response, { q = 'lolcats', offset = 0 } = {}) {
                 return err.name;
             }
         });
-        response.status(206).json(results);
+        try {
+            response.status(206).json(results);
+        } catch (err) {
+            console.error(err);
+        }
     }
 }
